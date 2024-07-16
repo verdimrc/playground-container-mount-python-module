@@ -81,4 +81,22 @@ HAHA: composer
 HAHA: llmfoundry
 composer.__file__='/composer/__init__.py'
 llmfoundry.__file__='/llmfoundry/__init__.py'
+
+# Verify the composer launcher also loads the host's version. To accomplish this:
+# 1. set the PYTHONPATH to the container current directory (which is /)
+# 2. also ddd a marker to the cli launcher.
+$ sed -i 's/--version/--HAHA_VERSION/' composer/composer/cli/launcher.py
+$ docker run -it --rm --user $(id -u):$(id -g) \
+    -v $(pwd)/composer/composer:/composer \
+    -v $(pwd)/llm-foundry/llmfoundry:/llmfoundry \
+    -e PYTHONPATH=/ \
+    mosaicml/llm-foundry:2.2.1_cu121_flash2-latest \
+    bash -c "composer"
+HAHA: composer
+usage: composer [-h] [--HAHA_VERSION] ...
+
+# From here, there're several adventurous options:
+# 1/ mount host's version to container's dist-packages location
+# 2/ build a custom container that remove the container's dist-packages version
+# 3/ build a custom container that sets PYTHONPATH => guarantee to always run with PYTHONPATH set
 ```
