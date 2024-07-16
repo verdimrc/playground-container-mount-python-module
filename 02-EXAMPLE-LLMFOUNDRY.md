@@ -5,8 +5,8 @@
 ```console
 $ docker pull mosaicml/llm-foundry:2.2.1_cu121_flash2-latest
 
-# Verify container provides the dependencies installed by:
-# ( cd composer && pip install -e '.[libcloud,wandb,oci,gcs] )'
+# Verify container provides the dependencies equivalent to the ones installed by:
+# ( cd composer && pip install -e '.[libcloud,wandb,oci,gcs] )' => read composer/setup.py to find out.
 $ docker run -it --rm --user $(id -u):$(id -g) \
     mosaicml/llm-foundry:2.2.1_cu121_flash2-latest \
     /bin/bash -c "pip --disable-pip-version-check list | egrep 'libcloud|wandb|oci|google-cloud-storage'"
@@ -15,8 +15,8 @@ google-cloud-storage        2.10.0
 oci                         2.126.1
 wandb                       0.16.6
 
-# Verify container provides the dependencies installed by:
-# ( cd llm-foundry && pip install -e '.[gpu] )'
+# Verify container provides the dependencies equivalent to the ones installed by:
+# ( cd llm-foundry && pip install -e '.[gpu] )' => read llm-foundry/setup.py to find out.
 $ docker run -it --rm --user $(id -u):$(id -g) \
     mosaicml/llm-foundry:2.2.1_cu121_flash2-latest \
     /bin/bash -c "pip --disable-pip-version-check list | egrep 'mosaicml|flash-attn' ; which composer"
